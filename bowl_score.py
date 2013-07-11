@@ -11,7 +11,6 @@ class InvalidInputException(Exception):
 extra_balls_func = {
     (True, False): 2,
     (False, True): 1,
-    (False, False): 0,
 }
 
 def count_score(scores):
@@ -64,7 +63,6 @@ def count_score(scores):
         if frame_result == 10:
             is_strike = result[0] == 10
             is_spare = not is_strike
-
             extra_balls = extra_balls_func[(is_strike, is_spare)]
             frame_result += sum(scores[:extra_balls])
             if is_last_frame and len(scores) < extra_balls:
