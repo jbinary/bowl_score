@@ -8,11 +8,6 @@ class InvalidInputException(Exception):
     pass
 
 
-extra_balls_func = {
-    (True, False): 2,
-    (False, True): 1,
-}
-
 def count_score(scores):
     """Given a list of knocked down pins on each turn return total score
        for a round.
@@ -62,8 +57,7 @@ def count_score(scores):
         frame_result = sum(result)
         if frame_result == 10:
             is_strike = result[0] == 10
-            is_spare = not is_strike
-            extra_balls = extra_balls_func[(is_strike, is_spare)]
+            extra_balls = 2 if is_strike else 1
             frame_result += sum(scores[:extra_balls])
             if is_last_frame and len(scores) < extra_balls:
                 raise InvalidInputException('Not enough balls')
