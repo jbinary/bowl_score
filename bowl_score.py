@@ -64,16 +64,17 @@ def count_score(scores):
             raise InvalidInputException('Frame %s has invalid scores %s' % (
                 frame, result))
 
-        is_strike = result[0] == 10
-        is_spare = not is_strike and sum(result) == 10
-        assert not all((is_strike, is_spare))
+        frame_result = sum(result)
+        if frame_result == 10:
+            is_strike = result[0] == 10
+            is_spare = not is_strike
 
-        extra_balls = extra_balls_func[(is_strike, is_spare)]
-        result.extend(scores[:extra_balls])
-        if is_last_frame and len(scores) < extra_balls:
-            raise InvalidInputException('Not enough balls')
+            extra_balls = extra_balls_func[(is_strike, is_spare)]
+            frame_result += sum(scores[:extra_balls])
+            if is_last_frame and len(scores) < extra_balls:
+                raise InvalidInputException('Not enough balls')
+        score += frame_result
 
-        score += sum(result)
     return score
 
 if __name__ == '__main__':
