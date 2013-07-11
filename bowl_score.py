@@ -37,11 +37,11 @@ def count_score(scores):
        >>> count_score([9, 7, 10, 10, 10, 10, 10, 10, 10, 10, 8, 1])
        Traceback (most recent call last):
            ...
-       InvalidInputException: Frame 1 has invalid scores [9, 7]
+       InvalidInputException: Frame 1 has invalid scores (9, 7)
        >>> count_score([-9, 0, 10, 10, 10, 10, 10, 10, 10, 10, 8, 1])
        Traceback (most recent call last):
            ...
-       InvalidInputException: Frame 1 has invalid scores [-9, 0]
+       InvalidInputException: Frame 1 has invalid scores (-9, 0)
     """
     scores = scores[:]
 
@@ -53,11 +53,8 @@ def count_score(scores):
     score = 0
     for frame in xrange(1, LAST_FRAME + 1):
         first_ball = get_ball()
-        if first_ball != 10:
-            second_ball = get_ball()
-        else:
-            second_ball = 0
-        result = [first_ball, second_ball]
+        second_ball = get_ball() if first_ball != 10 else 0
+        result = (first_ball, second_ball)
         is_last_frame = frame == LAST_FRAME
         if not all(map(lambda score: 0 <= score <= 10, result)) or \
             (sum(result) > 10 and not is_last_frame):
